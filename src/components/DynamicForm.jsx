@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export default function DynamicForm({ schema, onSubmit }) {
+  //Linking Value of each field by it's Index position
   const [values, setValues] = useState(() => {
     const obj = {};
     schema.fields.forEach((f) => (obj[f.name] = ""));
@@ -12,6 +13,7 @@ export default function DynamicForm({ schema, onSubmit }) {
     setValues((v) => ({ ...v, [name]: val }));
   };
 
+  //checking for errors after submit, can later be connected to backend
   const submit = (e) => {
     e.preventDefault();
     const newErrors = {};
@@ -35,7 +37,8 @@ export default function DynamicForm({ schema, onSubmit }) {
             {f.label} {f.required && "*"}
           </label>
           <br />
-
+          {/* Here, each field is first sorted through type. */}
+          {/* then, the value of Input is changed according to the Field label */}
           {f.type === "text" && (
             <input
               value={values[f.name]}

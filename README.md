@@ -2,6 +2,8 @@
 
 Assignment for Betacode Interview: Live at: https://beta-code-assignment.vercel.app/
 
+Used Tailwind CSS to save time.
+
 Note: Used ChatGPT to make the coding process faster, all the code is edited and customized by me to meet the requirements.
 
 Added backend support: Downloaded JSON syntax after making a table, then uploaded that to https://api.jsonbin.io

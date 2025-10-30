@@ -10,11 +10,12 @@ import {
 } from "@tanstack/react-table";
 
 export default function DataGrid() {
+  //Here, Filters are taken from React-Table Docs and ChatGPT both.
   const [data, setData] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [loading, setLoading] = useState(false);
-  //const [tempStuff, setTempStuff] = useState(true);
 
+  //Axios For getting API result
   useEffect(() => {
     setLoading(true);
     axios
@@ -23,6 +24,7 @@ export default function DataGrid() {
       .finally(() => setLoading(false));
   }, []);
 
+  //Defined column name and Key, used in <th> mapping and key value pair match from JSON</th>
   const columns = useMemo(
     () => [
       { header: "ID", accessorKey: "id" },
@@ -34,17 +36,21 @@ export default function DataGrid() {
     []
   );
 
+  //Each added from docs as required, all are ad-ins for Row Sorting, etc
+  //this table already includes all the data(rows) of the tabel
+  //column name, and sorting logic
   const table = useReactTable({
     data,
     columns,
     state: { globalFilter },
-    onGlobalFilterChange: setGlobalFilter,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    onGlobalFilterChange: setGlobalFilter, //Search Box function
+    getCoreRowModel: getCoreRowModel(), //base table model
+    getSortedRowModel: getSortedRowModel(), //asc-desc sorting
+    getFilteredRowModel: getFilteredRowModel(), //for filtering row acc. to search bar
+    getPaginationRowModel: getPaginationRowModel(), //divides x rows into pages
     globalFilterFn: (row, columnId, filterValue) => {
-      const rowValues = Object.values(row.original).join(" ").toLowerCase();
+      //Defines how search bar access columns
+      const rowValues = Object.values(row.original).join(" ").toLowerCase(); //all the data of that row
       return rowValues.includes(filterValue.toLowerCase());
     },
   });
@@ -72,6 +78,8 @@ export default function DataGrid() {
         <div>Loading...</div>
       ) : (
         <div style={{ overflowX: "auto" }}>
+          {/* Logic of Rows starts from here */}
+
           <p className="text-10 w-full">
             Tip: Click on header to sort accordingly, default sorted by ID
           </p>
@@ -79,6 +87,7 @@ export default function DataGrid() {
             <thead>
               {table.getHeaderGroups().map((hg) => (
                 <tr key={hg.id}>
+                  {/* Handling Header of the table */}
                   {hg.headers.map((header) => (
                     <th
                       key={header.id}
@@ -92,6 +101,7 @@ export default function DataGrid() {
                       className="px-2 h-10 bg-primary"
                       onClick={header.column.getToggleSortingHandler()}
                     >
+                      {/* render name of the header, getContext() displays Name */}
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
@@ -105,6 +115,7 @@ export default function DataGrid() {
             </thead>
 
             <tbody>
+              {/* Getting each row via mapping rowmodel */}
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
@@ -125,6 +136,7 @@ export default function DataGrid() {
         </div>
       )}
 
+      {/* Pagination Logic */}
       <div style={{ marginTop: 10 }}>
         <button
           onClick={() => table.setPageIndex(0)}

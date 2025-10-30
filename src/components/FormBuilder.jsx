@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import DynamicForm from "./DynamicForm";
 import axios from "axios";
 
+//Field Structure is defined here, used uuid to ensure unique field IDs
 const makeField = (type) => ({
   id: uuidv4(),
   label: `${type} field`,
@@ -13,11 +14,13 @@ const makeField = (type) => ({
 });
 
 export default function FormBuilder() {
+  //Setting Schema here, will be used to define the final form and sent to DynamicForm builder
   const [schema, setSchema] = useState({
     title: "Untitled Form",
     fields: [],
   });
 
+  //Used to load JSON from API endpoint
   const [loading, setloading] = useState(false);
   const [urlID, setUrlID] = useState("");
 
@@ -41,6 +44,7 @@ export default function FormBuilder() {
     }
   };
 
+  //Adding, Updating and removing field
   const addField = (type) => {
     setSchema({ ...schema, fields: [...schema.fields, makeField(type)] });
   };
@@ -56,6 +60,7 @@ export default function FormBuilder() {
     setSchema({ ...schema, fields: schema.fields.filter((f) => f.id !== id) });
   };
 
+  //Editing Order of the fields
   const moveField = (from, to) => {
     const fields = [...schema.fields];
     const [moved] = fields.splice(from, 1);
@@ -63,6 +68,7 @@ export default function FormBuilder() {
     setSchema({ ...schema, fields });
   };
 
+  //Exporting to JSON, copied from Mozilla Docs
   const exportJSON = () => {
     const blob = new Blob([JSON.stringify(schema, null, 2)], {
       type: "application/json",
@@ -76,6 +82,7 @@ export default function FormBuilder() {
   };
 
   return (
+    //Defining 2 column/x rows grid.
     <div className="grid grid-cols-2 grid-rows-auto gap-4 mx-4 my-6">
       <div>
         <div className="my-4 text-3xl">
@@ -85,8 +92,10 @@ export default function FormBuilder() {
             value={schema.title}
             onChange={(e) => setSchema({ ...schema, title: e.target.value })}
           />
+          {/* using Input Form to change title here */}
         </div>
 
+        {/* Setting up Buttons here to change structure */}
         <div className="mb-4 flex gap-5">
           <button onClick={() => addField("text")}>Add Text</button>{" "}
           <button onClick={() => addField("number")}>Add Number</button>{" "}
@@ -100,6 +109,8 @@ export default function FormBuilder() {
         {schema.fields.length === 0 && (
           <p className="my-8 text-2xl">No fields added</p>
         )}
+
+        {/* Mapping through fields added in Schema and then using Inputs in it to change values */}
         {schema.fields.map((f, idx) => (
           <div
             key={f.id}
@@ -170,6 +181,7 @@ export default function FormBuilder() {
         ))}
       </div>
 
+      {/* Using Dynamic Form to render everything Live */}
       <div>
         <h3 className="my-3 text-3xl underline">Live Render:</h3>
         <DynamicForm

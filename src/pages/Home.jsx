@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+//Check App.jsx for router information, this is home page
 export default function Home() {
   const navigate = useNavigate();
 
