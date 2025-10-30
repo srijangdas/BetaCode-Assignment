@@ -13,7 +13,7 @@ export default function DataGrid() {
   const [data, setData] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [loading, setLoading] = useState(false);
-  const [tempStuff, setTempStuff] = useState(true);
+  //const [tempStuff, setTempStuff] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -73,7 +73,7 @@ export default function DataGrid() {
       ) : (
         <div style={{ overflowX: "auto" }}>
           <p className="text-10 w-full">
-            Tip: Click on header to sort accordingly
+            Tip: Click on header to sort accordingly, default sorted by ID
           </p>
           <table style={{ borderCollapse: "collapse", width: "100%" }}>
             <thead>
@@ -96,16 +96,8 @@ export default function DataGrid() {
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-                      {header.column.getIsSorted() === "asc" &&
-                        " 🔼" &&
-                        setTempStuff(false)}
-                      {header.column.getIsSorted() === false &&
-                        header.column.columnDef.header == "ID" &&
-                        tempStuff &&
-                        " 🔼"}
-                      {header.column.getIsSorted() === "desc" &&
-                        " 🔽" &&
-                        setTempStuff(false)}
+                      {header.column.getIsSorted() === "asc" && " 🔼"}
+                      {header.column.getIsSorted() === "desc" && " 🔽"}
                     </th>
                   ))}
                 </tr>
