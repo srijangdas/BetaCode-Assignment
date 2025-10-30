@@ -76,7 +76,7 @@ export default function FormBuilder() {
   };
 
   return (
-    <div className="grid grid-cols-2 grid-rows-auto gap-4 mx-4">
+    <div className="grid grid-cols-2 grid-rows-auto gap-4 mx-4 my-6">
       <div>
         <div className="my-4 text-3xl">
           <label className="underline pr-4">Form Title: </label>

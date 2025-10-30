@@ -6,7 +6,10 @@ export default function Home() {
 
   return (
     <div className="p-10 flex flex-col items-center justify-center h-screen w-full">
-      <h1 className="text-white text-4xl">React Dynamic Form & Data Grid</h1>
+      <h1 className="text-white text-4xl text-center">
+        React Dynamic Form & Data Grid <br />
+        by Srijan Das for BetaCodes.in
+      </h1>
 
       <div className="p-10 flex gap-8">
         <button
